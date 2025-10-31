@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Your COVU Verification Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body { font-family: 'Montserrat', Arial, sans-serif; }
+    </style>
+  </head>
+  <body style="background-color: #f7fdf9; margin:0; padding:0; width:100%; font-family: Arial, Helvetica, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f7fdf9; padding: 0; margin: 0;">
+      <tr>
+        <td align="center" style="padding: 32px 0;">
+          <table width="480" cellpadding="0" cellspacing="0" border="0" style="background: #ffffff; border-radius: 16px; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.04); max-width: 480px; width: 100%;">
+            <tr>
+              <td align="center" style="padding: 32px 16px 0 16px;">
+                <img src="https://covumarket.com/coming-soon/logo/covu.png" alt="COVU Logo" width="64" height="64" style="display:block; margin-bottom: 8px;">
+                <h2 style="font-size: 24px; color: #22223b; font-weight: 700; margin: 0 0 24px 0; font-family: Arial, Helvetica, sans-serif;">Your COVU Verification Code</h2>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding: 0 16px 24px 16px;">
+                <!-- <p style="font-size: 16px; color: #22223b; margin: 0 0 24px 0; text-align: center; font-family: Arial, Helvetica, sans-serif;">Hello,</p> -->
+                <p style="font-size: 16px; color: #22223b; margin: 0 0 24px 0; text-align: center; font-family: Arial, Helvetica, sans-serif;">Your verification code is:</p>
+                <div style="display:block; background-color:#f7fdf9; color:#FF6B35; font-size:28px; font-weight:900; letter-spacing:0.25em; padding:20px 32px; border:2px dashed #FF6B35; border-radius:12px; margin-bottom:24px; margin-left:auto; margin-right:auto; text-align:center; font-family:Arial, Helvetica, sans-serif;">{{ verification_code }}</div>
+                <p style="font-size: 15px; color: #22223b; text-align: center; margin: 0 0 0 0; font-family: Arial, Helvetica, sans-serif;">This code will expire in 10 minutes.</p>
+                <p style="font-size: 15px; color: #22223b; text-align: center; margin: 0 0 0 0; font-family: Arial, Helvetica, sans-serif;">Thank you for joining <span style="color: #008751; font-weight: bold;">COVU</span>!</p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding: 32px 16px 16px 16px;">
+                <div style="margin-top: 8px; font-size: 12px; color: #a0aec0; text-align: center;">
+                  &copy; {{ now|date:'Y' }} COVU Market. All rights reserved.
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

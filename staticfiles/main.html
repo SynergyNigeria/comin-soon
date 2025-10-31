@@ -1,0 +1,793 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=1200"> -->
+
+  <meta name="description" content="Safe and secure marketplace for Nigerian sellers and buyers. Connect with local businesses and shop with confidence.">
+  <meta name="theme-color" content="#008751">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="COVU Market">
+  <title>COVU - Nigerian E-commerce Marketplace</title>
+  <!-- SEO & Open Graph Enhancements -->
+  <meta property="og:title" content="COVU - Nigerian E-commerce Marketplace" />
+  <meta property="og:description" content="Safe and secure marketplace for Nigerian sellers and buyers. Connect with local businesses and shop with confidence." />
+  <meta property="og:image" content="./logo/covu.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://covumarket.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="COVU - Nigerian E-commerce Marketplace" />
+  <meta name="twitter:description" content="Safe and secure marketplace for Nigerian sellers and buyers." />
+  <meta name="twitter:image" content="{% static 'logo/covu.png' %}" />
+  <link rel="manifest" href="{% static 'manifest.json' %}">
+  <link rel="apple-touch-icon" href="{% static 'covu-favicon/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'covu-favicon/favicon.ico' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'covu-favicon/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'covu-favicon/favicon-16x16.png' %}">
+  <!-- <link rel="stylesheet" href="/frontend/public/tailwind.css" /> -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Feather Icons CDN -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body { font-family: 'Montserrat', sans-serif; box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
+    @media (max-device-width: 768px) {
+      .md\:min-h-screen { min-height: auto !important; }
+      #hero { padding-top: 120px !important; }
+    }
+    nav { border-bottom: 2px solid red; }
+    /* Ensure nav menu overlay is fully hidden when closed */
+    #nav-menu.opacity-0,
+    #nav-menu.pointer-events-none {
+      pointer-events: none !important;
+      z-index: -1 !important;
+    }
+    #nav-menu.opacity-100 {
+      pointer-events: auto !important;
+      z-index: 50 !important;
+    }
+  </style>
+  <!-- AOS Animate On Scroll CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID'); // Replace with your GA ID
+  </script>
+</head>
+<body class="bg-white text-gray-900 overflow-x-hidden max-w-full scroll-smooth" style="scroll-behavior:smooth;">
+  <!-- Navigation Bar -->
+  <nav class="w-full bg-white shadow-sm fixed top-0 left-0 z-50 max-w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 w-full max-w-full">
+      <a href="#" class="flex items-center gap-2" aria-label="COVU Home">
+        <img src="{% static 'logo/covu.png' %}" alt="COVU Logo" class="h-10 w-auto" />
+      </a>
+      <ul class="hidden md:flex gap-8 text-base font-medium">
+        <li><a href="#about" class="hover:text-[#008751] transition">About</a></li>
+        <li><a href="#progress" class="hover:text-[#008751] transition">Progress</a></li>
+        <li><a href="#faq" class="hover:text-[#008751] transition">FAQ</a></li>
+      </ul>
+      <button class="md:hidden text-2xl text-[#008751] relative z-50" id="nav-toggle" style="pointer-events:auto;" aria-label="Toggle menu">
+        <span id="nav-icon-bar"><i class="fas fa-bars"></i></span>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="nav-menu" class="md:hidden fixed inset-0 z-50 flex items-center justify-center opacity-0 scale-75 pointer-events-none transition-all duration-400 ease-in-out backdrop-blur-md backdrop-saturate-150 overflow-x-hidden" style="pointer-events:auto;">
+      <div class="relative w-full max-w-md h-[90vh] bg-transparent flex flex-col items-center justify-center">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 0 H360 Q400 0 400 40 V500 Q400 600 200 600 Q0 600 0 500 V40 Q0 0 40 0 Z" fill="#FF6B35"/>
+        </svg>
+        <button id="nav-menu-close" class="absolute top-6 right-6 z-20 text-white text-3xl bg-[#FF6B35] rounded-full p-2 shadow-lg hover:bg-[#008751] transition" aria-label="Close menu"><i data-feather="x"></i></button>
+        <ul class="flex flex-col gap-8 z-10 mt-20">
+          <li><a href="#about" class="text-white hover:text-[#FFC107] transition" onclick="closeNav()">About</a></li>
+          <li><a href="#progress" class="text-white hover:text-[#FFC107] transition" onclick="closeNav()">Progress</a></li>
+          <li><a href="#faq" class="text-white hover:text-[#FFC107] transition" onclick="closeNav()">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section with Countdown and Email Signup -->
+  <section class="relative md:min-h-screen flex flex-col justify-center items-center px-4 pt-28 bg-gradient-to-br from-[#008751]/5 via-white to-[#FF6B35]/5 overflow-hidden max-w-full z-30" id="hero" data-aos="fade-up" style="padding-top:100px;">
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-20 left-10 w-32 h-32 bg-[#FF6B35] rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-10 w-40 h-40 bg-[#008751] rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-[#FFC107] rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Content -->
+        <div class="text-center lg:text-left space-y-8" data-aos="fade-right">
+          <div class="space-y-4">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-[#008751] leading-tight">
+              Get the <span class="block text-[#FF6B35]">Visibility</span> Your Business Deserves
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              Whether you're selling clothes, bags, shoes, wigs, perfumes, or fashion accessories online or in your physical shop. Join Nigeria's fairest marketplace. Get maximum exposure, sell with confidence through secure transactions, and grow your business without unfair competition.
+            </p>
+          </div>
+
+          <!-- Feature Highlights -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0">
+            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20 text-center" data-aos="fade-up" data-aos-delay="200">
+              <div class="bg-[#008751] text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                <i data-feather="eye"></i>
+              </div>
+              <span class="font-semibold text-gray-800 text-sm">Maximum Visibility</span>
+            </div>
+            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20 text-center" data-aos="fade-up" data-aos-delay="300">
+              <div class="bg-[#FF6B35] text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                <i data-feather="award"></i>
+              </div>
+              <span class="font-semibold text-gray-800 text-sm">Fair Competition</span>
+            </div>
+            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20 text-center" data-aos="fade-up" data-aos-delay="400">
+              <div class="bg-[#2E8B57] text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                <i data-feather="shield"></i>
+              </div>
+              <span class="font-semibold text-gray-800 text-sm">Secure Transactions</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Hero Image Carousel -->
+        <div class="relative" data-aos="fade-left">
+          <div class="relative z-10">
+            <!-- Image Carousel Container -->
+            <div class="bg-gradient-to-br from-[#FF6B35] to-[#FFC107] rounded-3xl p-8 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 relative overflow-hidden">
+              <!-- Carousel Images -->
+              <div id="hero-carousel" class="relative w-full h-80 md:h-96 rounded-2xl overflow-hidden">
+                <!-- Image 1 -->
+                <div class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-500">
+                  <img src="{% static 'findthepro-thrift-clothes-1.jpg' %}" alt="Fashion Collection - Clothes" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=600&fit=crop&crop=center'" />
+                </div>
+                <!-- Image 2 -->
+                <!-- <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-500">
+                  <img src="/lady-shoe.jpg" alt="Fashion Collection - Shoes" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&h=600&fit=crop&crop=center'" />
+                </div> -->
+                <!-- Image 3 -->
+                <!-- <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-500">
+                  <img src="/wig.jpg" alt="Fashion Collection - Wigs" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=600&fit=crop&crop=center'" />
+                </div> -->
+              </div>
+
+              <!-- Navigation Arrows -->
+              <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-[#FF6B35] hover:text-[#008751] rounded-full p-3 shadow-lg transition-all duration-300 z-20" aria-label="Previous image">
+                <i data-feather="chevron-left" class="w-5 h-5"></i>
+              </button>
+              <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-[#FF6B35] hover:text-[#008751] rounded-full p-3 shadow-lg transition-all duration-300 z-20" aria-label="Next image">
+                <i data-feather="chevron-right" class="w-5 h-5"></i>
+              </button>
+
+              <!-- Dots Indicator -->
+              <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                <button class="carousel-dot w-3 h-3 rounded-full bg-white/70 hover:bg-white transition-colors duration-300" data-slide="0" aria-label="Go to slide 1"></button>
+                <button class="carousel-dot w-3 h-3 rounded-full bg-white/40 hover:bg-white transition-colors duration-300" data-slide="1" aria-label="Go to slide 2"></button>
+                <button class="carousel-dot w-3 h-3 rounded-full bg-white/40 hover:bg-white transition-colors duration-300" data-slide="2" aria-label="Go to slide 3"></button>
+              </div>
+            </div>
+
+            <!-- Floating elements -->
+            <div id="floating-shopping" class="absolute -top-4 -right-4 bg-white rounded-full p-4 shadow-xl cursor-pointer hover:scale-110 transition-transform duration-300" data-aos="zoom-in" data-aos-delay="500" aria-label="Shopping cart">
+              <div class="bg-[#008751] text-white rounded-full w-8 h-8 flex items-center justify-center">
+                <i data-feather="shopping-bag"></i>
+              </div>
+            </div>
+            <div id="floating-heart" class="absolute -bottom-4 -left-4 bg-white rounded-full p-4 shadow-xl cursor-pointer hover:scale-110 transition-transform duration-300" data-aos="zoom-in" data-aos-delay="600" aria-label="Favorites">
+              <div class="bg-[#FF6B35] text-white rounded-full w-8 h-8 flex items-center justify-center">
+                <i data-feather="heart"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Background decorative elements -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-[#008751]/10 to-[#FF6B35]/10 rounded-3xl -z-10 transform -rotate-2"></div>
+          <div class="absolute -inset-8 bg-gradient-to-r from-[#FFC107]/5 to-[#2E8B57]/5 rounded-3xl -z-20 transform rotate-1"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Launch Countdown & Early Access Section -->
+  <section class="py-16 px-4 bg-gradient-to-r from-[#008751]/5 via-white to-[#FF6B35]/5" data-aos="fade-up">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="mb-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-[#008751] mb-4">
+          Be the First to Know When We Launch!
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Join thousands of fashion entrepreneurs who are already signed up to get exclusive early access.
+          Be among the first sellers to showcase your products and start growing your business on Nigeria's fairest marketplace.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <!-- Countdown Timer -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20" data-aos="fade-right">
+          <div class="flex flex-col items-center" aria-label="Countdown to Launch">
+            <div class="bg-[#008751] text-white rounded-full p-4 mb-4">
+              <i data-feather="clock" class="w-8 h-8"></i>
+            </div>
+            <span class="text-xl text-[#008751] font-semibold mb-4">Launching In</span>
+            <div id="countdown" class="flex gap-3 items-end mb-4" aria-live="polite">
+              <div class="text-center">
+                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
+                <span class="countdown-label text-sm text-gray-500 font-semibold">days</span>
+              </div>
+              <div class="text-center">
+                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
+                <span class="countdown-label text-sm text-gray-500 font-semibold">hrs</span>
+              </div>
+              <div class="text-center">
+                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
+                <span class="countdown-label text-sm text-gray-500 font-semibold">min</span>
+              </div>
+              <div class="text-center">
+                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
+                <span class="countdown-label text-sm text-gray-500 font-semibold">sec</span>
+              </div>
+            </div>
+            <span class="text-sm text-gray-500">The wait is almost over!</span>
+          </div>
+        </div>
+
+        <!-- Email Notification Signup -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20" data-aos="fade-left">
+          <div class="flex flex-col items-center z-40 relative">
+            <div class="bg-[#FF6B35] text-white rounded-full p-4 mb-4">
+              <i data-feather="mail" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-[#008751] mb-2">Get Early Access</h3>
+            <p class="text-gray-600 mb-6 text-center">
+              Sign up now and be among the first fashion sellers to join COVU.
+              Get exclusive launch benefits and start building your online presence today!
+            </p>
+            <form id="notify-form" class="w-full max-w-sm" aria-label="Email Notification Signup" autocomplete="off">
+              <div class="flex flex-col gap-4">
+                <input type="email" id="notify-email" name="email" placeholder="Enter your email address" required aria-required="true" class="w-full px-6 py-3 border-2 border-[#008751] rounded-full bg-[#f7fdf9] text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35] transition placeholder-gray-400 shadow-sm" aria-label="Email address">
+                <button type="submit" class="w-full px-6 py-3 bg-[#FF6B35] hover:bg-[#008751] text-white font-bold rounded-full shadow-lg transition-all duration-200 text-base hover:scale-105">
+                  Notify Me When We Launch
+                </button>
+              </div>
+              <div id="notify-message" class="text-green-600 text-sm mt-4 min-h-[1.2em] text-center w-full" aria-live="polite"></div>
+            </form>
+            <div class="mt-4 text-xs text-gray-500">
+              <span class="inline-flex items-center gap-1">
+                <i data-feather="shield" class="w-3 h-3"></i>
+                Your email is safe with us. No spam, ever.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Email Verification Modal -->
+  <div id="verification-modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300" style="background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 transform scale-95 transition-transform duration-300">
+      <!-- Modal Header -->
+      <div class="text-center mb-6">
+        <div class="bg-[#008751] text-white rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+          <i data-feather="mail" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-[#008751] mb-2">Verify Your Email</h3>
+        <p class="text-gray-600 text-sm">
+          We've sent a 6-digit verification code to <span id="verification-email" class="font-semibold text-[#FF6B35]"></span>
+        </p>
+      </div>
+
+      <!-- Verification Code Input -->
+      <div class="mb-6">
+        <label for="verification-code" class="block text-sm font-medium text-gray-700 mb-3 text-center">
+          Enter Verification Code
+        </label>
+        <div class="flex gap-2 justify-center">
+          <input type="text" id="code-1" maxlength="1" class="verification-input w-12 h-12 text-center text-2xl font-bold border-2 border-[#008751] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-[#FF6B35] transition" inputmode="numeric" pattern="[0-9]">
+          <input type="text" id="code-2" maxlength="1" class="verification-input w-12 h-12 text-center text-2xl font-bold border-2 border-[#008751] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-[#FF6B35] transition" inputmode="numeric" pattern="[0-9]">
+          <input type="text" id="code-3" maxlength="1" class="verification-input w-12 h-12 text-center text-2xl font-bold border-2 border-[#008751] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-[#FF6B35] transition" inputmode="numeric" pattern="[0-9]">
+          <input type="text" id="code-4" maxlength="1" class="verification-input w-12 h-12 text-center text-2xl font-bold border-2 border-[#008751] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-[#FF6B35] transition" inputmode="numeric" pattern="[0-9]">
+          <input type="text" id="code-5" maxlength="1" class="verification-input w-12 h-12 text-center text-2xl font-bold border-2 border-[#008751] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-[#FF6B35] transition" inputmode="numeric" pattern="[0-9]">
+          <input type="text" id="code-6" maxlength="1" class="verification-input w-12 h-12 text-center text-2xl font-bold border-2 border-[#008751] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-[#FF6B35] transition" inputmode="numeric" pattern="[0-9]">
+        </div>
+        <div id="verification-error" class="text-red-500 text-sm mt-3 text-center min-h-[1.2em]" aria-live="polite"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-3">
+        <button id="resend-code" class="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all duration-200">
+          Resend Code
+        </button>
+        <button id="verify-code" class="flex-1 px-4 py-3 bg-[#008751] hover:bg-[#FF6B35] text-white font-bold rounded-xl transition-all duration-200 hover:scale-105">
+          Verify & Subscribe
+        </button>
+      </div>
+
+      <!-- Close Modal -->
+      <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition" aria-label="Close modal">
+        <i data-feather="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section class="md:min-h-screen flex flex-col justify-center items-center px-4 bg-gradient-to-br from-[#008751]/10 via-[#F7FDF9] to-[#FF6B35]/10 py-16 md:py-24 max-w-full" id="about" data-aos="fade-up">
+    <div class="max-w-7xl mx-auto w-full px-4">
+      <!-- Section Header -->
+      <div class="text-center mb-16" data-aos="fade-down">
+        <h2 class="text-5xl md:text-6xl font-bold text-[#008751] mb-6">About COVU</h2>
+        <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Building Nigeria's most trusted marketplace where fashion entrepreneurs thrive
+        </p>
+        <div class="w-24 h-1 bg-gradient-to-r from-[#008751] to-[#FF6B35] mx-auto mt-8 rounded-full hidden"></div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
+        <!-- Our Story Card -->
+        <div class="relative" data-aos="fade-right">
+          <div class="p-8 md:p-10 border border-white/20 h-full">
+            <!-- Icon and Title -->
+            <div class="flex items-center gap-4 mb-6">
+              <div class="bg-[#008751] text-white rounded-2xl p-4 shadow-lg">
+                <i data-feather="book-open" class="w-8 h-8"></i>
+              </div>
+              <h3 class="text-3xl font-bold text-[#008751]">Our Story</h3>
+            </div>
+
+            <!-- Story Content -->
+            <div class="space-y-6">
+              <p class="text-lg text-gray-700 leading-relaxed">
+                COVU was born from the collective experiences of our team, who witnessed countless Nigerians struggle with online scams and unfair marketplace practices.
+              </p>
+              <p class="text-lg text-gray-700 leading-relaxed">
+                We saw hardworking fashion entrepreneurs selling clothes, bags, shoes, wigs, and perfumes being overlooked by platforms that favored big businesses.
+              </p>
+              <p class="text-lg text-gray-700 leading-relaxed font-semibold text-[#008751]">
+                Together, we decided to build a marketplace that levels the playing field, ensuring every seller gets fair visibility and every buyer can shop with confidence.
+              </p>
+            </div>
+
+            <!-- Decorative Element -->
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-[#FF6B35]/20 rounded-full blur-xl"></div>
+          </div>
+        </div>
+
+        <!-- Our Vision Card -->
+        <div class="relative" data-aos="fade-left" data-aos-delay="200">
+          <div class="p-8 md:p-10 border border-white/20 h-full">
+            <!-- Icon and Title -->
+            <div class="flex items-center gap-4 mb-6">
+              <div class="bg-[#FF6B35] text-white rounded-2xl p-4 shadow-lg">
+                <i data-feather="target" class="w-8 h-8"></i>
+              </div>
+              <h3 class="text-3xl font-bold text-[#FF6B35]">Our Vision</h3>
+            </div>
+
+            <!-- Vision Content -->
+            <div class="space-y-6">
+              <p class="text-lg text-gray-700 leading-relaxed">
+                We aim to create a safe environment for everyone to buy and sell securely, empower young businesses to meet more buyers, and make it easy for anyone to become a seller fast and hassle-free.
+              </p>
+              <p class="text-lg text-gray-700 leading-relaxed font-semibold text-[#008751]">
+                We want to make online commerce in Nigeria honest, transparent, and accessible to all.
+              </p>
+            </div>
+
+            <!-- Key Points -->
+            <div class="grid grid-cols-1 gap-4 mt-8">
+              <div class="flex items-center gap-3 p-3 bg-[#F7FDF9] rounded-xl border border-[#008751]/20">
+                <div class="bg-[#008751] text-white rounded-full p-2">
+                  <i data-feather="shield" class="w-4 h-4"></i>
+                </div>
+                <span class="text-gray-700 font-medium">Safe & Secure Transactions</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-[#F7FDF9] rounded-xl border border-[#FF6B35]/20">
+                <div class="bg-[#FF6B35] text-white rounded-full p-2">
+                  <i data-feather="users" class="w-4 h-4"></i>
+                </div>
+                <span class="text-gray-700 font-medium">Empowering Entrepreneurs</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-[#F7FDF9] rounded-xl border border-[#2E8B57]/20">
+                <div class="bg-[#2E8B57] text-white rounded-full p-2">
+                  <i data-feather="globe" class="w-4 h-4"></i>
+                </div>
+                <span class="text-gray-700 font-medium">Accessible to All Nigerians</span>
+              </div>
+            </div>
+
+            <!-- Decorative Element -->
+            <div class="absolute -top-4 -left-4 w-32 h-32 bg-[#008751]/20 rounded-full blur-xl"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 hidden" data-aos="fade-up" data-aos-delay="400">
+        <div class="text-center">
+          <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div class="text-3xl md:text-4xl font-bold text-[#008751] mb-2">100+</div>
+            <div class="text-sm md:text-base text-gray-600 font-medium">Pre-registered Sellers</div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div class="text-3xl md:text-4xl font-bold text-[#FF6B35] mb-2">50+</div>
+            <div class="text-sm md:text-base text-gray-600 font-medium">Cities Covered</div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div class="text-3xl md:text-4xl font-bold text-[#2E8B57] mb-2">24/7</div>
+            <div class="text-sm md:text-base text-gray-600 font-medium">Customer Support</div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div class="text-3xl md:text-4xl font-bold text-[#FFC107] mb-2">100%</div>
+            <div class="text-sm md:text-base text-gray-600 font-medium">Secure Payments</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Progress & News Section -->
+  <section class="w-full bg-gradient-to-br from-[#F7FDF9] via-white to-[#008751]/5 py-16 px-4" id="progress" aria-label="Progress and News" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto">
+      <!-- Section Header -->
+      <div class="text-center mb-16" data-aos="fade-down">
+        <h2 class="text-4xl md:text-5xl font-bold text-[#008751] mb-6">Our Journey So Far</h2>
+        <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Every milestone brings us closer to revolutionizing e-commerce in Nigeria
+        </p>
+        <div class="w-24 h-1 bg-[#FF6B35] mx-auto mt-8 rounded-full"></div>
+      </div>
+
+      <!-- Timeline Container -->
+      <div class="relative">
+        <!-- Timeline Line -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-[#FFFFFF] via-[#FF6B35]/50 to-[#FFFFFF]/50 rounded-full hidden md:block"></div>
+
+        <!-- Timeline Items -->
+        <div class="space-y-12">
+          <!-- October 2025 -->
+          <div class="relative flex flex-col md:flex-row items-center" data-aos="fade-right">
+            <!-- Timeline Dot -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#008751] rounded-full border-4 border-white shadow-lg z-10 hidden md:block"></div>
+
+            <!-- Content Card -->
+            <div class="md:w-1/2 md:pr-12">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-start gap-4">
+                  <div class="bg-[#008751] text-white rounded-xl p-3 shadow-lg flex-shrink-0">
+                    <i data-feather="credit-card" class="w-6 h-6"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-3">
+                      <span class="text-sm font-bold text-[#008751] bg-[#008751]/10 px-3 py-1 rounded-full">October 2025</span>
+                      <span class="text-xs text-gray-500">Latest Update</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Secure Payment Integration Completed! 🎉</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                      After months of rigorous testing and security audits, we've successfully integrated bank-grade payment processing.
+                      Every transaction on COVU is now protected by multiple layers of security, ensuring both buyers and sellers can trade with complete peace of mind.
+                    </p>
+                    <div class="mt-4 flex items-center gap-2 text-sm text-[#008751] font-medium">
+                      <i data-feather="check-circle" class="w-4 h-4"></i>
+                      <span>100% Secure Transactions</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-1/2"></div>
+          </div>
+
+          <!-- September 2025 -->
+          <div class="relative flex flex-col md:flex-row items-center" data-aos="fade-left">
+            <!-- Timeline Dot -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#FF6B35] rounded-full border-4 border-white shadow-lg z-10 hidden md:block"></div>
+
+            <!-- Content Card -->
+            <div class="md:w-1/2"></div>
+            <div class="md:w-1/2 md:pl-12">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-start gap-4">
+                  <div class="bg-[#FF6B35] text-white rounded-xl p-3 shadow-lg flex-shrink-0">
+                    <i data-feather="users" class="w-6 h-6"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-3">
+                      <span class="text-sm font-bold text-[#FF6B35] bg-[#FF6B35]/10 px-3 py-1 rounded-full">September 2025</span>
+                      <span class="text-xs text-gray-500">Early Community</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Calling All Early Sellers!</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                      We are currently testing some key features and inviting early users to help shape the future of Nigeria's fairest marketplace. Sign up now to become one of the first sellers on COVU and enjoy exclusive access and support when we launch.
+                    </p>
+                    <div class="mt-4 flex items-center gap-2 text-sm text-[#FF6B35] font-medium">
+                      <i data-feather="star" class="w-4 h-4"></i>
+                      <span>Founding Seller Opportunity</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- August 2025 -->
+          <div class="relative flex flex-col md:flex-row items-center" data-aos="fade-right">
+            <!-- Timeline Dot -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#2E8B57] rounded-full border-4 border-white shadow-lg z-10 hidden md:block"></div>
+
+            <!-- Content Card -->
+            <div class="md:w-1/2 md:pr-12">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-start gap-4">
+                  <div class="bg-[#2E8B57] text-white rounded-xl p-3 shadow-lg flex-shrink-0">
+                    <i data-feather="users" class="w-6 h-6"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-3">
+                      <span class="text-sm font-bold text-[#2E8B57] bg-[#2E8B57]/10 px-3 py-1 rounded-full">August 2025</span>
+                      <span class="text-xs text-gray-500">Transparency Milestone</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Pre-Registered Sellers: <span id="pre-registered-count" class="text-[#2E8B57] font-extrabold">{{ pre_registered_count }}</span></h3>
+                    <p class="text-gray-700 leading-relaxed">
+                      We believe in trust and transparency. Instead of inflating our numbers, we show the real count of pre-registered sellers, updated directly from our database. Join our honest community and help us grow together!
+                    </p>
+                    <div class="mt-4 flex items-center gap-2 text-sm text-[#2E8B57] font-medium">
+                      <i data-feather="trending-up" class="w-4 h-4"></i>
+                      <span>Growing with Trust</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-1/2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="text-center mt-16" data-aos="fade-up" data-aos-delay="400">
+        <div class="bg-[#FF6B35] rounded-2xl p-8 text-white shadow-xl">
+          <h3 class="text-2xl md:text-3xl font-bold mb-4">Be Part of Our Next Chapter</h3>
+          <p class="text-lg mb-6 opacity-90">
+            Join the growing community of fashion entrepreneurs who are ready to transform their businesses with COVU.
+          </p>
+          <a href="#notify-form" class="inline-flex items-center gap-2 bg-white text-[#008751] font-bold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <i data-feather="mail" class="w-5 h-5"></i>
+            Get Launch Updates
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section class="py-8 px-4 bg-white max-w-full" data-aos="fade-up">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold text-[#008751] mb-6">Fashion Sellers Love COVU</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gray-50 p-6 rounded-lg shadow">
+          <p class="text-gray-700 italic">"As a wig seller, COVU finally gave me the visibility I needed. My sales tripled in the first month!"</p>
+          <p class="text-[#FF6B35] font-semibold mt-2">- Chioma, Abuja Wig Entrepreneur</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg shadow">
+          <p class="text-gray-700 italic">"Running a physical boutique was tough until COVU. Now I reach customers online too, fairly and securely."</p>
+          <p class="text-[#FF6B35] font-semibold mt-2">- Adebayo, Lagos Fashion Store Owner</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg shadow">
+          <p class="text-gray-700 italic">"Started selling perfumes online through COVU. The fair exposure and secure payments made all the difference."</p>
+          <p class="text-[#FF6B35] font-semibold mt-2">- Fatima, Kano Perfume Seller</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-8 px-4 bg-[#F7FDF9] max-w-full" id="faq" data-aos="fade-up">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-[#008751] mb-6 text-center">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="bg-white p-4 rounded-lg shadow">
+          <summary class="font-semibold text-[#008751] cursor-pointer">How do I showcase my fashion products?</summary>
+          <p class="mt-2 text-gray-700">Upload high-quality photos of your clothes, bags, shoes, wigs, or perfumes. Our platform makes it easy to create stunning product listings that attract buyers.</p>
+        </details>
+        <details class="bg-white p-4 rounded-lg shadow">
+          <summary class="font-semibold text-[#008751] cursor-pointer">Is COVU fair for small fashion businesses?</summary>
+          <p class="mt-2 text-gray-700">Absolutely! Our algorithm ensures equal visibility for all sellers, regardless of size. No paid promotions or favoritism—just fair competition.</p>
+        </details>
+        <details class="bg-white p-4 rounded-lg shadow">
+          <summary class="font-semibold text-[#008751] cursor-pointer">How secure are fashion transactions?</summary>
+          <p class="mt-2 text-gray-700">We use bank-grade security with buyer protection. Sellers get paid only after successful deliveries, giving everyone peace of mind.</p>
+        </details>
+        <details class="bg-white p-4 rounded-lg shadow">
+          <summary class="font-semibold text-[#008751] cursor-pointer">Can I sell both online and from my physical shop?</summary>
+          <p class="mt-2 text-gray-700">Yes! COVU bridges online and offline sales. Manage your physical shop inventory and reach more customers digitally.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-[#FF6B35] via-[#FF6B35] to-[#cf623a] text-white py-8 px-4 max-w-full">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="{% static 'logo/covu-market.png' %}" alt="COVU Logo" class="h-12 w-auto" />
+            <span class="text-2xl font-bold hidden">COVU</span>
+          </div>
+          <p class="text-gray-200 text-sm leading-relaxed">Nigeria's trusted marketplace for safe and secure buying and selling. Empowering entrepreneurs and connecting communities.</p>
+        </div>
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4 text-[#FFC107]">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#about" class="hover:text-[#FF6B35] transition">About Us</a></li>
+            <li><a href="#progress" class="hover:text-[#FF6B35] transition">Progress</a></li>
+            <li><a href="#faq" class="hover:text-[#FF6B35] transition">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4 text-[#FFC107]">Contact Us</h3>
+          <ul class="space-y-2 text-sm text-gray-200">
+            <li class="flex items-center gap-2">
+              <i class="fas fa-envelope text-[#FF6B35]"></i>
+              <span>teams@covumarket.com</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-phone text-[#FF6B35]"></i>
+              <span>+234 705 6348 128</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-map-marker-alt text-[#FF6B35]"></i>
+              <span>Uyo, Nigeria</span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-span-1">
+          <h3 class="text-lg font-semibold mb-4 text-[#FFC107]">Follow Us</h3>
+          <div class="flex gap-4">
+            <a href="#" class="bg-white/10 hover:bg-[#FF6B35] p-3 rounded-full transition-all duration-300 hover:scale-110" aria-label="Facebook">
+              <i class="fab fa-facebook-f text-white"></i>
+            </a>
+            <a href="#" class="bg-white/10 hover:bg-[#FF6B35] p-3 rounded-full transition-all duration-300 hover:scale-110" aria-label="Twitter">
+              <i class="fab fa-twitter text-white"></i>
+            </a>
+            <a href="#" class="bg-white/10 hover:bg-[#FF6B35] p-3 rounded-full transition-all duration-300 hover:scale-110" aria-label="Instagram">
+              <i class="fab fa-instagram text-white"></i>
+            </a>
+            <a href="#" class="bg-white/10 hover:bg-[#FFC107] p-3 rounded-full transition-all duration-300 hover:scale-110" aria-label="Naira Sign">
+              <i class="fas fa-naira-sign text-white"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/20 mt-12 pt-8 text-center">
+        <p class="text-sm text-gray-300">&copy; 2025 <span class="font-bold text-[#FFC107]">COVU</span>. All rights reserved. | Built with ❤️ for Nigerian entrepreneurs</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="{% static 'script.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      feather.replace();
+      if (window.AOS) AOS.init({ once: false, duration: 800, offset: 80 });
+      // Nav functions
+      function openNav() {
+        const menu = document.getElementById('nav-menu');
+        const iconBar = document.getElementById('nav-icon-bar');
+        if (menu) {
+          menu.classList.remove('opacity-0', 'scale-75', 'pointer-events-none');
+          menu.classList.add('opacity-100', 'scale-100');
+          setTimeout(() => menu.classList.remove('pointer-events-none'), 10);
+        }
+        if (iconBar) iconBar.classList.add('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeNav() {
+        const menu = document.getElementById('nav-menu');
+        const iconBar = document.getElementById('nav-icon-bar');
+        if (menu) {
+          menu.classList.add('opacity-0', 'scale-75', 'pointer-events-none');
+          menu.classList.remove('opacity-100', 'scale-100');
+        }
+        if (iconBar) iconBar.classList.remove('hidden');
+        document.body.style.overflow = '';
+      }
+      const toggle = document.getElementById('nav-toggle');
+      if (toggle) toggle.addEventListener('click', () => (document.getElementById('nav-menu').classList.contains('opacity-0') ? openNav() : closeNav()));
+      const closeBtn = document.getElementById('nav-menu-close');
+      if (closeBtn) closeBtn.addEventListener('click', closeNav);
+      document.querySelectorAll('#nav-menu a').forEach(link => link.addEventListener('click', closeNav));
+
+      // Register Service Worker for PWA
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("{% static 'sw.js' %}")
+          .then(registration => {
+            console.log('Service Worker registered successfully:', registration);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      }
+
+      // PWA Install Prompt
+      let deferredPrompt;
+      const installButton = document.createElement('button');
+      installButton.innerHTML = '<i data-feather="download"></i> Install COVU App';
+      installButton.className = 'fixed bottom-4 right-4 bg-[#008751] hover:bg-[#FF6B35] text-white px-4 py-3 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center gap-2 text-sm font-medium';
+      installButton.style.display = 'none';
+      document.body.appendChild(installButton);
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installButton.style.display = 'flex';
+
+        installButton.addEventListener('click', () => {
+          installButton.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+            } else {
+              console.log('User dismissed the install prompt');
+            }
+            deferredPrompt = null;
+          });
+        });
+      });
+
+      // Hide install button if app is already installed
+      window.addEventListener('appinstalled', () => {
+        installButton.style.display = 'none';
+        console.log('PWA was installed');
+      });
+    });
+
+    // Countdown Timer
+    const launchDate = new Date('2025-12-01T00:00:00');
+    function pad(n) { return n.toString().padStart(2, '0'); }
+    function updateCountdown() {
+      const now = new Date();
+      const diff = launchDate - now;
+      const digits = document.querySelectorAll('#countdown .countdown-digit');
+      if (diff > 0 && digits.length === 4) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+        digits[0].textContent = pad(days);
+        digits[1].textContent = pad(hours);
+        digits[2].textContent = pad(mins);
+        digits[3].textContent = pad(secs);
+      } else if (digits.length === 4) {
+        digits[0].textContent = digits[1].textContent = digits[2].textContent = digits[3].textContent = '--';
+      }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+  // Email signup and verification logic is now handled in script.js only.
+
+    // ...existing code...
+    // Email signup and verification logic is now handled in script.js only.
+  </script>
+</body>
+</html>
