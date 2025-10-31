@@ -1,0 +1,27 @@
+{
+  "name": "COVU - Nigerian E-commerce Marketplace",
+  "short_name": "COVU",
+  "description": "Safe and secure marketplace for Nigerian sellers and buyers. Connect with local businesses and shop with confidence.",
+  "start_url": "./main.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#008751",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["shopping", "business", "lifestyle"],
+  "icons": [
+    {
+      "src": "./logo/covu192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./logo/covu520.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
