@@ -1,4 +1,4 @@
 static:
   - name: static
     path: staticfiles
-    url_prefix: /coming-soon/
+    url_prefix: coming-soon/
