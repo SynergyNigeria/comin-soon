@@ -59,7 +59,7 @@ cd covumarket.com
 ### 2. Create and Activate a Virtual Environment
 
 ```sh
-python -m venv .venv
+python3.11 -m venv .venv
 .venv\Scripts\activate  # On Windows
 # Or
 source .venv/bin/activate  # On Mac/Linux
