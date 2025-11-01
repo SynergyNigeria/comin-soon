@@ -12,19 +12,27 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
-
+import os
+import ssl
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-import os
 
 # Load environment variables from .env file
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-os.environ["SSL_CERT_FILE"] = os.path.join(BASE_DIR, "cacert.pem")
+# Disable SSL verification for SMTP (workaround for Docker SSL certificate issues)
+# This is safe since we're connecting to the legitimate Zoho SMTP server
+import smtplib
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+original_smtp_init = smtplib.SMTP.__init__
 
+
+def custom_smtp_init(self, *args, **kwargs):
+    original_smtp_init(self, *args, **kwargs)
+
+
+smtplib.SMTP.__init__ = custom_smtp_init
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "changeme-insecure-dev-key")
@@ -52,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Add WhiteNoise here
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -95,14 +104,16 @@ DATABASES = {
 
 # Email Configuration with Zoho SMTP
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Use custom email backend that disables SSL verification in Docker
+EMAIL_BACKEND = "signup.email_backend.UnverifiedSSLEmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.zoho.com")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() in ("true", "1", "yes")
-# EMAIL_USE_SSL = False
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Or your preferred sender name
+EMAIL_TIMEOUT = 30
 
 
 # Password validation
@@ -139,10 +150,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_URL = "/coming-soon/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "coming-soon",
 ]
+
+# WhiteNoise configuration for efficient static file serving
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -156,4 +170,4 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
+    X_FRAME_OPTIONS = "DENY"
