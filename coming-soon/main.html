@@ -218,26 +218,12 @@
             <div class="bg-[#008751] text-white rounded-full p-4 mb-4">
               <i data-feather="clock" class="w-8 h-8"></i>
             </div>
-            <span class="text-xl text-[#008751] font-semibold mb-4">Launching In</span>
-            <div id="countdown" class="flex gap-3 items-end mb-4" aria-live="polite">
-              <div class="text-center">
-                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
-                <span class="countdown-label text-sm text-gray-500 font-semibold">days</span>
-              </div>
-              <div class="text-center">
-                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
-                <span class="countdown-label text-sm text-gray-500 font-semibold">hrs</span>
-              </div>
-              <div class="text-center">
-                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
-                <span class="countdown-label text-sm text-gray-500 font-semibold">min</span>
-              </div>
-              <div class="text-center">
-                <span class="countdown-digit block text-4xl md:text-5xl font-extrabold text-[#FF6B35] leading-none">00</span>
-                <span class="countdown-label text-sm text-gray-500 font-semibold">sec</span>
-              </div>
+            <span class="text-xl text-[#008751] font-semibold mb-4">Launch Status</span>
+            <div id="countdown" class="flex flex-col items-center justify-center mb-4" aria-live="polite">
+              <span class="block text-5xl md:text-6xl font-extrabold text-[#FF6B35] leading-none mb-2">Coming Soon</span>
+              <span class="text-base text-gray-600 font-medium">We're finalizing everything!</span>
             </div>
-            <span class="text-sm text-gray-500">The wait is almost over!</span>
+            <span class="text-sm text-gray-500">Stay tuned for our launch date announcement</span>
           </div>
         </div>
 
@@ -761,7 +747,9 @@
       });
     });
 
-    // Countdown Timer
+    // Countdown Timer - Disabled (showing "Coming Soon" instead)
+    // To enable countdown, uncomment the code below and set your launch date
+    /*
     const launchDate = new Date('2025-12-01T00:00:00');
     function pad(n) { return n.toString().padStart(2, '0'); }
     function updateCountdown() {
@@ -783,6 +771,7 @@
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
+    */
 
   // Email signup and verification logic is now handled in script.js only.
 
