@@ -41,40 +41,44 @@ class UnverifiedSSLEmailBackend(SMTPBackend):
                 self.connection.ehlo()
                 self.connection.starttls(context=context)
                 self.connection.ehlo()
-                
+
                 if self.username and self.password:
                     self.connection.login(self.username, self.password)
-                
+
                 print(f"TLS connection successful to {self.host}:{self.port}")
                 return True
             except Exception as e:
                 print(f"TLS connection failed: {str(e)}")
                 self.connection = None
-                
+
                 # Try SSL (port 465) as fallback
                 try:
                     print(f"Attempting SSL connection to {self.host}:465")
-                    self.connection = SMTP_SSL(self.host, 465, timeout=timeout, context=context)
+                    self.connection = SMTP_SSL(
+                        self.host, 465, timeout=timeout, context=context
+                    )
                     self.connection.ehlo()
-                    
+
                     if self.username and self.password:
                         self.connection.login(self.username, self.password)
-                    
+
                     print(f"SSL connection successful to {self.host}:465")
                     return True
                 except Exception as e2:
                     print(f"SSL connection also failed: {str(e2)}")
                     if not self.fail_silently:
-                        raise Exception(f"Both TLS and SSL connections failed. TLS: {str(e)}, SSL: {str(e2)}")
+                        raise Exception(
+                            f"Both TLS and SSL connections failed. TLS: {str(e)}, SSL: {str(e2)}"
+                        )
         else:
             # Non-TLS connection
             try:
                 print(f"Attempting non-TLS connection to {self.host}:{self.port}")
                 self.connection = SMTP(self.host, self.port, timeout=timeout)
-                
+
                 if self.username and self.password:
                     self.connection.login(self.username, self.password)
-                
+
                 print(f"Non-TLS connection successful to {self.host}:{self.port}")
                 return True
             except Exception as e:

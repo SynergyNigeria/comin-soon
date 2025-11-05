@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
+import threading
 
 from .models import EmailSubscription
 
@@ -17,6 +18,22 @@ def coming_soon(request):
 
     pre_registered_count = EmailSubscription.objects.count()
     return render(request, "main.html", {"pre_registered_count": pre_registered_count})
+
+
+def send_email_async(subject, plain_message, html_message, from_email, recipient_list):
+    """Send email in a background thread to avoid blocking the request"""
+    try:
+        send_mail(
+            subject=subject,
+            message=plain_message,
+            html_message=html_message,
+            from_email=from_email,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+        print(f"Email sent successfully to {recipient_list}")
+    except Exception as e:
+        print(f"Failed to send email to {recipient_list}: {str(e)}")
 
 
 @require_POST
@@ -43,37 +60,29 @@ def subscribe_email(request):
         # Generate and send verification code
         subscription.generate_verification_code()
 
-        # Send verification email using main template
+        # Send verification email using main template (in background thread)
         subject = "Verify Your Email - COVU Marketplace"
-        try:
-            html_message = render_to_string(
-                "coming_soon.html",
-                {
-                    "verification_code": subscription.verification_code,
-                    "email": email,
-                    "is_email": True,  # flag to adjust template for email context
-                },
-            )
-            plain_message = strip_tags(html_message)
-            send_mail(
-                subject=subject,
-                message=plain_message,
-                html_message=html_message,
-                from_email=None,  # Uses DEFAULT_FROM_EMAIL from settings
-                recipient_list=[email],
-                fail_silently=False,
-            )
-            return JsonResponse(
-                {"success": True, "message": "Verification code sent to your email"}
-            )
-        except Exception as e:
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": f"Failed to send verification email: {str(e)}",
-                    "debug": str(e),
-                }
-            )
+        html_message = render_to_string(
+            "coming_soon.html",
+            {
+                "verification_code": subscription.verification_code,
+                "email": email,
+                "is_email": True,  # flag to adjust template for email context
+            },
+        )
+        plain_message = strip_tags(html_message)
+        
+        # Send email in background thread to avoid blocking the request
+        email_thread = threading.Thread(
+            target=send_email_async,
+            args=(subject, plain_message, html_message, None, [email])
+        )
+        email_thread.daemon = True
+        email_thread.start()
+        
+        return JsonResponse(
+            {"success": True, "message": "Verification code sent to your email"}
+        )
 
     except json.JSONDecodeError as e:
         return JsonResponse(
@@ -214,25 +223,17 @@ def resend_code(request):
         )
         plain_message = strip_tags(html_message)
 
-        try:
-            send_mail(
-                subject=subject,
-                message=plain_message,
-                html_message=html_message,
-                from_email=None,
-                recipient_list=[email],
-                fail_silently=False,
-            )
-            return JsonResponse(
-                {"success": True, "message": "New verification code sent to your email"}
-            )
-        except Exception as e:
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": "Failed to send verification email. Please try again.",
-                }
-            )
+        # Send email in background thread to avoid blocking the request
+        email_thread = threading.Thread(
+            target=send_email_async,
+            args=(subject, plain_message, html_message, None, [email])
+        )
+        email_thread.daemon = True
+        email_thread.start()
+        
+        return JsonResponse(
+            {"success": True, "message": "New verification code sent to your email"}
+        )
 
     except json.JSONDecodeError as e:
         return JsonResponse(

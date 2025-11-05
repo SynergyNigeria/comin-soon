@@ -28,4 +28,5 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 # Run migrations and start Gunicorn server
-CMD python manage.py migrate && gunicorn covu_soon.wsgi:application --bind 0.0.0.0:8000
+# Increased timeout to 120s to handle slow email connections
+CMD python manage.py migrate && gunicorn covu_soon.wsgi:application --bind 0.0.0.0:8000 --timeout 120 --workers 2
