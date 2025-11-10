@@ -14,7 +14,8 @@ def coming_soon(request):
     """Render the coming soon landing page with pre-registered sellers count"""
     from .models import EmailSubscription
 
-    pre_registered_count = EmailSubscription.objects.count()
+    # Count only verified sellers
+    pre_registered_count = EmailSubscription.objects.filter(is_verified=True).count()
     return render(request, "main.html", {"pre_registered_count": pre_registered_count})
 
 
